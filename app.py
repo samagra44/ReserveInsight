@@ -1,9 +1,12 @@
 import streamlit as st
 import pickle as pk
 import numpy as np
+import os
 
-with open('saved_model.pkl','rb') as file:
-    dtree = pk.load(file)
+working_dir = os.path.dirname(os.path.abspath(__file__))
+# with open('saved_model.pkl','rb') as file:
+#     dtree = pk.load(file)
+dtree_model = pk.load(open(f'{working_dir}/saved_model/saved_model.pkl','rb'))
 
 st.set_page_config(
     page_title="Hotel Reservation/Cancellation Prediction",
@@ -83,7 +86,7 @@ def make_prediction():
                     input_data['avg_price_per_room'],
                     input_data['no_of_special_requests']]]
     
-    prediction = dtree.predict(input_array)
+    prediction = dtree_model.predict(input_array)
     st.write('Model Prediction 🤖: ',prediction[0])
 
     if prediction[0] == 0:
